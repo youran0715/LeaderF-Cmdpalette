@@ -49,6 +49,7 @@ class CmdpaletteExplManager(Manager):
     def __init__(self):
         super(CmdpaletteExplManager, self).__init__()
         self._match_ids = []
+        self.flag_edit = 0
 
     def _getExplClass(self):
         return CmdpaletteExplorer
@@ -56,32 +57,25 @@ class CmdpaletteExplManager(Manager):
     def _defineMaps(self):
         lfCmd("call leaderf#Cmdpalette#Maps()")
 
-    def _setImportAs(self, import_as):
-        self.flag_import_as = import_as
-
-    # def _cmdExtension(self, cmd):
-    #     if equal(cmd, '<C-D>'):
-    #         self.flag_import_as = 1
-    #         self.accept()
-    #     return True
+    def _cmdExtension(self, cmd):
+        if equal(cmd, '<C-D>'):
+            self.flag_edit = 1
+            self.accept()
+        return True
 
     def _acceptSelection(self, *args, **kwargs):
         if len(args) == 0:
             return
         line = args[0]
 
-        # lfCmd(": " + line)
-        # lfCmd("call leaderf#Cmdpalette#Exec(\"" + line + "\")")
-        # lfCmd("let tempfile = '__temp'")
-        lfCmd("call writefile([input(':', '" + line[:-1] + "', 'command')], '__temp')")
-        lfCmd("source __temp")
-        lfCmd("call delete('__temp')")
-        # lfCmd("source ")
-        # if self.flag_import_as == 1:
-            # local_name = lfEval("input('Enter local name: ')")
-            # lfCmd("cmdpaletteAs " + local_name + " " + line)
-        # else:
-            # lfCmd("cmdpalette " + line)
+        if self.flag_edit == 0:
+            lfCmd(line)
+        else:
+            lfCmd("call writefile([input(':', '" + line[:-1] + "', 'command')], '__temp')")
+            lfCmd("source __temp")
+            lfCmd("call delete('__temp')")
+
+        self.flag_edit = 0
 
 
     def _getDigest(self, line, mode):

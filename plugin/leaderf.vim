@@ -8,6 +8,7 @@
 " ============================================================================
 
 command! -bar -nargs=0 LeaderfCmdpalette call leaderf#Cmdpalette#startExpl(g:Lf_WindowPosition)
+command! -bar -nargs=0 LeaderfCmdpaletteCword call leaderf#Cmdpalette#startExplPattern(g:Lf_WindowPosition, expand('<cword>'))
 
 call g:LfRegisterSelf("LeaderfCmdpalette", "navigate the cmdpalette")
 

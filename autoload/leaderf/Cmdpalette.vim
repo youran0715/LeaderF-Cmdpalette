@@ -32,3 +32,7 @@ function! leaderf#Cmdpalette#startExpl(win_pos, ...)
     call leaderf#LfPy("cmdpaletteExplManager.startExplorer('".a:win_pos."')")
 endfunction
 
+function! leaderf#Cmdpalette#startExplPattern(win_pos, pattern)
+    call leaderf#LfPy("cmdpaletteExplManager.startExplorer('".a:win_pos."', pattern='".a:pattern."')") 
+endfunction
+
